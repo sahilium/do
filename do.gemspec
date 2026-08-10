@@ -19,9 +19,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'thor', '~> 1.3'
   spec.add_dependency 'toml-rb', '~> 4.2'
-
-  spec.add_development_dependency 'rspec', '~> 3.13'
-  spec.add_development_dependency 'rubocop', '~> 1.60'
-  spec.add_development_dependency 'rubocop-rspec', '~> 3.0'
   spec.metadata['rubygems_mfa_required'] = 'true'
 end

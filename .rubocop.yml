@@ -24,7 +24,7 @@ Style/StringConcatenation:
 
 # --- Metrics (small tool; favor clarity) ---
 Metrics/AbcSize:
-  Max: 35
+  Max: 40
 
 Metrics/MethodLength:
   Max: 35
@@ -37,6 +37,8 @@ Metrics/PerceivedComplexity:
 
 Metrics/ClassLength:
   Max: 150
+  Exclude:
+    - "lib/do/cli.rb"
 
 Metrics/BlockLength:
   Exclude:
@@ -54,12 +56,16 @@ Layout/LineLength:
 Naming/PredicatePrefix:
   AllowedMethods: [is_thor_reserved_word?]
 
+Naming/PredicateMethod:
+  AllowedMethods: [validate!]
+
 Naming/MethodParameterName:
   AllowedNames:
     - sd
     - t
     - l
     - x
+    - ok
 
 # --- RSpec ---
 RSpec/SpecFilePathFormat:

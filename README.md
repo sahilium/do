@@ -1,8 +1,8 @@
 # do
 
 ![Ruby](https://img.shields.io/badge/ruby-%3E%3D%203.1-blue)
-![Gem](https://img.shields.io/gem/sahilium/do)
-![Downloads](https://img.shields.io/gem/sahilium/do)
+![Gem](https://img.shields.io/gem/v/do)
+![Downloads](https://img.shields.io/gem/dt/do)
 ![CI](https://img.shields.io/github/actions/workflow/status/sahilium/do/ci.yml?label=CI)
 ![License](https://img.shields.io/github/license/sahilium/do)
 
