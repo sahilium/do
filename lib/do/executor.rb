@@ -1,5 +1,5 @@
-require "shellwords"
-require_relative "error"
+require 'shellwords'
+require_relative 'error'
 
 module Do
   # Executes a task's command as an argument list, without a shell.
@@ -26,9 +26,7 @@ module Do
 
       env_overrides = task.environment || {}
       options = {}
-      if task.working_directory
-        options[:chdir] = File.expand_path(task.working_directory)
-      end
+      options[:chdir] = File.expand_path(task.working_directory) if task.working_directory
 
       pid = Process.spawn(env_overrides, *argv, options)
       _pid, status = Process.wait2(pid)

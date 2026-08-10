@@ -1,4 +1,4 @@
-require_relative "error"
+require_relative 'error'
 
 module Do
   # Translates a task's declarative schedule into a systemd calendar
@@ -13,12 +13,12 @@ module Do
     #   task is manual-only.
     def self.on_calendar(task)
       case task.schedule
-      when nil, "" then nil
-      when "once"   then once_calendar
-      when "hourly" then hourly_calendar(task)
-      when "daily"  then daily_calendar(task)
-      when "weekly" then weekly_calendar(task)
-      when "monthly" then monthly_calendar(task)
+      when nil, '' then nil
+      when 'once'   then once_calendar
+      when 'hourly' then hourly_calendar(task)
+      when 'daily'  then daily_calendar(task)
+      when 'weekly' then weekly_calendar(task)
+      when 'monthly' then monthly_calendar(task)
       else
         raise Error, "unsupported schedule '#{task.schedule}'"
       end
@@ -28,7 +28,7 @@ module Do
       # OnActiveSec=0 fires the service exactly once, when the timer is
       # activated. The reload/enable workflow activates the timer, so `once`
       # means "run once now when scheduled", without repeating.
-      "OnActiveSec=0"
+      'OnActiveSec=0'
     end
 
     def self.hourly_calendar(task)
@@ -69,7 +69,7 @@ module Do
     def self.monthly_day(task)
       day = task.day&.to_s
       if day.nil? || day.empty?
-        "1"
+        '1'
       elsif day =~ /\A([1-9]|[12]\d|3[01])\z/
         day
       else
@@ -87,7 +87,7 @@ module Do
     end
 
     def self.pad(value)
-      value.to_s.rjust(2, "0")
+      value.to_s.rjust(2, '0')
     end
   end
 end

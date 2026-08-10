@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a bug in `do`
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `do version` (and your Ruby version, `ruby -v`)
+      placeholder: 0.1.0 / ruby 3.3.0
+    validations:
+      required: true
+  - type: textarea
+    id: os
+    attributes:
+      label: Environment
+      description: OS / distro, and whether a systemd **user** session is running (`systemctl --user is-system-running`)
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The `do` commands you ran and your relevant `config.toml`
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include error output. Add the `DO_DEBUG`/backtrace if applicable.
+    validations:
+      required: true

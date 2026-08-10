@@ -1,7 +1,7 @@
-require_relative "config"
-require_relative "scheduler"
-require_relative "task"
-require_relative "error"
+require_relative 'config'
+require_relative 'scheduler'
+require_relative 'task'
+require_relative 'error'
 
 module Do
   # Stateless validation over a parsed {Config}. Returns human-readable error
@@ -67,8 +67,8 @@ module Do
       config.tasks.flat_map do |task|
         name = task.name.to_s
         if name.empty?
-          ["task has an empty name"]
-        elsif name.start_with?(".") || name =~ /[\s\/]|\./
+          ['task has an empty name']
+        elsif name.start_with?('.') || name =~ %r{[\s/]|\.}
           ["task name '#{name}' is not a valid systemd unit name " \
            "(must not contain spaces, '/', dots, or start with a dot)"]
         else
@@ -82,8 +82,11 @@ module Do
         wd = task.working_directory
         next [] if wd.nil? || wd.empty?
 
-        File.directory?(File.expand_path(wd)) ? [] :
+        if File.directory?(File.expand_path(wd))
+          []
+        else
           ["working directory '#{wd}' for task '#{task.name}' does not exist"]
+        end
       end
     end
 
@@ -105,7 +108,7 @@ module Do
 
       unless Task::SCHEDULES.include?(sched)
         return ["invalid schedule for task '#{task.name}'. " \
-                "Expected: once, hourly, daily, weekly, or monthly."]
+                'Expected: once, hourly, daily, weekly, or monthly.']
       end
 
       # Driving the calendar generator lets us reuse the exact same parsing

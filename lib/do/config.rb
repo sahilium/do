@@ -1,6 +1,6 @@
-require "toml-rb"
-require_relative "task"
-require_relative "error"
+require 'toml-rb'
+require_relative 'task'
+require_relative 'error'
 
 module Do
   # Loads and represents the declarative TOML configuration.
@@ -15,13 +15,13 @@ module Do
 
     # Default location when no path is given.
     def self.default_path
-      dir = ENV["XDG_CONFIG_HOME"]
-      dir = File.join(Dir.home, ".config") if dir.nil? || dir.empty?
-      File.join(dir, "do", "config.toml")
+      dir = ENV.fetch('XDG_CONFIG_HOME', nil)
+      dir = File.join(Dir.home, '.config') if dir.nil? || dir.empty?
+      File.join(dir, 'do', 'config.toml')
     end
 
     # @return [Array<String>] validation errors found while parsing.
-    def self.parse(raw_text, source: "config.toml")
+    def self.parse(raw_text, source: 'config.toml')
       parsed = TomlRB.parse(raw_text)
       new(parsed, source: source)
     rescue TomlRB::ParseError, Psych::SyntaxError => e
@@ -45,7 +45,7 @@ module Do
     def initialize(raw, source: nil)
       @raw = raw || {}
       @source = source
-      @tasks = build_tasks(@raw["tasks"])
+      @tasks = build_tasks(@raw['tasks'])
     end
 
     def task(name)
@@ -96,8 +96,9 @@ module Do
       i = idx + 1
       while i < lines.length
         line = lines[i]
-        break if line.start_with?("[") && !line.start_with?("[tasks.#{task_name}.") &&
+        break if line.start_with?('[') && !line.start_with?("[tasks.#{task_name}.") &&
                  !line.start_with?("[tasks.\"#{task_name}\".")
+
         i += 1
       end
       i
@@ -105,12 +106,12 @@ module Do
 
     def block_start_index(text, task_name)
       re = /\[tasks\.#{Regexp.escape(task_name)}\]\s*\z|\[tasks\."#{Regexp.escape(task_name)}"\]\s*\z/
-      text.lines.index { |l| l.start_with?("[tasks.") && l =~ re }
+      text.lines.index { |l| l.start_with?('[tasks.') && l =~ re }
     end
 
     def block_end_index(lines, idx)
       i = idx + 1
-      i += 1 while i < lines.length && !lines[i].start_with?("[")
+      i += 1 while i < lines.length && !lines[i].start_with?('[')
       i
     end
 
@@ -138,20 +139,20 @@ module Do
           raise ValidationError, ["task '#{name}' definitions must be tables in #{@source}"]
         end
 
-        env = fields["environment"]
+        env = fields['environment']
         unless env.nil? || env.is_a?(Hash)
           raise ValidationError, ["environment for task '#{name}' must be a table in #{@source}"]
         end
 
         Task.new(
           name: name.to_s,
-          command: fields["command"],
-          schedule: fields["schedule"],
-          time: fields["time"],
-          day: fields["day"],
-          working_directory: fields["working_directory"],
+          command: fields['command'],
+          schedule: fields['schedule'],
+          time: fields['time'],
+          day: fields['day'],
+          working_directory: fields['working_directory'],
           environment: env,
-          enabled: fields["enabled"],
+          enabled: fields['enabled'],
           raw: fields
         )
       end

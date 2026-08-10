@@ -8,8 +8,8 @@ module Do
     SCHEDULES = %w[once hourly daily weekly monthly].freeze
     WEEKDAY_NAMES = %w[monday tuesday wednesday thursday friday saturday sunday].freeze
     WEEKDAY_NUMBERS = {
-      "monday" => 1, "tuesday" => 2, "wednesday" => 3, "thursday" => 4,
-      "friday" => 5, "saturday" => 6, "sunday" => 7
+      'monday' => 1, 'tuesday' => 2, 'wednesday' => 3, 'thursday' => 4,
+      'friday' => 5, 'saturday' => 6, 'sunday' => 7
     }.freeze
 
     attr_reader :name, :command, :schedule, :time, :day,
@@ -32,13 +32,13 @@ module Do
     # manual-only (unscheduled) tasks.
     def enabled?
       return scheduled? if @enabled.nil?
-      return @enabled == "true" || @enabled == true if @enabled.is_a?(String)
+      return @enabled == 'true' || @enabled == true if @enabled.is_a?(String)
 
       !!@enabled
     end
 
     def scheduled?
-      !@schedule.nil? && @schedule != ""
+      !@schedule.nil? && @schedule != ''
     end
 
     # Return the service unit name systemd will use for this task.

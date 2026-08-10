@@ -1,12 +1,10 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require_relative "../lib/do"
+require_relative '../lib/do'
 
 # `do <task>` is shorthand for `do run <task>` when the first argument is not
 # a built-in command.
-if ARGV[0] && !ARGV[0].start_with?("-") && !Do::CLI::BUILTINS.include?(ARGV[0])
-  ARGV.unshift("run")
-end
+ARGV.unshift('run') if ARGV[0] && !ARGV[0].start_with?('-') && !Do::CLI::BUILTINS.include?(ARGV[0])
 
 Do::CLI.start

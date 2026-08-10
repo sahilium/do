@@ -1,7 +1,7 @@
-require "fileutils"
-require_relative "systemd"
-require_relative "validator"
-require_relative "error"
+require 'fileutils'
+require_relative 'systemd'
+require_relative 'validator'
+require_relative 'error'
 
 module Do
   # Orchestrates the lifecycle of generated units against the systemd user
@@ -16,9 +16,7 @@ module Do
       @config = config
     end
 
-    def config=(config)
-      @config = config
-    end
+    attr_writer :config
 
     # Apply the configuration to the user systemd manager.
     #
@@ -31,10 +29,11 @@ module Do
 
       expected = {}
       config.tasks.each do |task|
-        if task.scheduled?
-          expected[task.service_unit] = UnitGenerator.service_content(task, source_path: config.path)
-          expected[task.timer_unit] = UnitGenerator.timer_content(task, source_path: config.path)
-        end
+        next unless task.scheduled?
+
+        expected[task.service_unit] =
+          UnitGenerator.service_content(task, source_path: config.path)
+        expected[task.timer_unit] = UnitGenerator.timer_content(task, source_path: config.path)
       end
 
       write_units(dir, expected)
@@ -46,7 +45,7 @@ module Do
 
     # Remove a task's generated units (if any) and reload. Does not touch the
     # TOML configuration.
-    def unschedule(task, config = @config)
+    def unschedule(task, _config = @config)
       remove_units_for(task)
       @systemd.daemon_reload
       :ok
@@ -70,9 +69,7 @@ module Do
       expected.each do |unit, content|
         path = File.join(dir, unit)
         existing = File.exist?(path) ? File.read(path) : nil
-        if existing != content
-          File.write(path, content)
-        end
+        File.write(path, content) if existing != content
       end
     end
 
@@ -80,7 +77,7 @@ module Do
     # a schedule was removed). Only files carrying the managed marker are
     # considered; user-created units are never touched.
     def remove_stale_units(dir, expected)
-      stale = Dir.glob(File.join(dir, "do-*.{service,timer}")).select do |path|
+      stale = Dir.glob(File.join(dir, 'do-*.{service,timer}')).select do |path|
         basename = File.basename(path)
         !expected.include?(basename) && managed?(path)
       end
@@ -95,7 +92,7 @@ module Do
     end
 
     def managed?(path)
-      File.read(path).lines.any? { |l| l.include?("Managed by do") }
+      File.read(path).lines.any? { |l| l.include?('Managed by do') }
     rescue Errno::ENOENT
       false
     end
