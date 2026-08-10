@@ -24,7 +24,7 @@ what environment/who directory; `do` turns that into working units.
 ## Installation
 
 ```bash
-gem install do
+gem install do_run
 ```
 
 The executable is `do`.
@@ -65,8 +65,8 @@ time = "10:00"
 enabled = true
 
 [tasks.report]
-command = "/home/eugene/bin/generate-report"
-working_directory = "/home/eugene/projects/report"
+command = "~/bin/generate-report"
+working_directory = "~/projects/report"
 schedule = "monthly"
 day = "1"
 time = "18:00"
