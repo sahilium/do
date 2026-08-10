@@ -90,10 +90,11 @@ module Do
     def validate_environment(config)
       config.tasks.flat_map do |task|
         (task.environment || {}).flat_map do |key, value|
-          unless key.is_a?(String) && value.is_a?(String)
+          if key.is_a?(String) && value.is_a?(String)
+            []
+          else
             ["environment for task '#{task.name}' must map strings to strings"]
           end
-          []
         end
       end
     end

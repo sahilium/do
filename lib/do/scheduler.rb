@@ -32,8 +32,8 @@ module Do
     end
 
     def self.hourly_calendar(task)
-      _, min = split_time(task)
-      "*-*-* *:#{min}:00"
+      _, min = split_time(task, fallback: [0, 0])
+      "*-*-* *:#{pad(min)}:00"
     end
 
     def self.daily_calendar(task)

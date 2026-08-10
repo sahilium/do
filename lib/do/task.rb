@@ -31,7 +31,10 @@ module Do
     # `enabled` is true by default for scheduled tasks and false for
     # manual-only (unscheduled) tasks.
     def enabled?
-      @enabled.nil? ? scheduled? : !!@enabled
+      return scheduled? if @enabled.nil?
+      return @enabled == "true" || @enabled == true if @enabled.is_a?(String)
+
+      !!@enabled
     end
 
     def scheduled?
