@@ -18,6 +18,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'thor', '~> 1.3'
-  spec.add_dependency 'toml-rb', '~> 4.2'
+  spec.add_dependency 'toml-rb', '>= 4.2', '< 7.0'
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
